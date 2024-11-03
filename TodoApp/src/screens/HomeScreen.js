@@ -9,7 +9,7 @@ const HomeScreen = () => {
     const [todos, setTodos] = useState([]);
 
     const [visible, setVisible] = useState(false);
-    
+
     const [editText, setEditText] = useState('');
     const [editId, setEditId] = useState(null);
 
@@ -34,12 +34,14 @@ const HomeScreen = () => {
     };
 
     const saveEdit = () => {
-        setTodos(todos.map(todo => 
-            todo.id === editId ? { ...todo, text: editText } : todo
-        ));
-        setVisible(false);
-        setEditText('');
-        setEditId(null);
+        if (editText.trim()) {
+            setTodos(todos.map(todo =>
+                todo.id === editId ? { ...todo, text: editText } : todo
+            ));
+            setVisible(false);
+            setEditText('');
+            setEditId(null);
+        }
     };
 
     return (
