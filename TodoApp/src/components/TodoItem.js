@@ -5,14 +5,14 @@ import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-m
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 
-const TodoItem = ({ item, onDelete, onEdit }) => {
-    const [isSelected, setSelection] = useState(false);
+const TodoItem = ({ item, onDelete, onEdit, onCheck }) => {
+    // const [isSelected, setSelection] = useState(false);
 
     return (
         <View style={styles.todoItem}>
             <BouncyCheckbox
-                isChecked={isSelected}
-                onPress={(checked) => setSelection(checked)}
+                isChecked={item.check}
+                onPress={(checked) => onCheck(checked, item.id)}
                 text={item.text}
                 textStyle={styles.todoText}
                 fillColor="#2196F3" // Цвет, когда чекбокс отмечен

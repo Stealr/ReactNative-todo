@@ -1,8 +1,9 @@
 // HomeScreen.js
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet } from 'react-native';
+import { View, TextInput, Button, StyleSheet, AsyncStorage } from 'react-native';
 import TodoList from '../components/TodoList';
 import Dialog from 'react-native-dialog';
+
 
 const HomeScreen = () => {
     const [text, setText] = useState('');
@@ -16,7 +17,7 @@ const HomeScreen = () => {
 
     const addTodo = () => {
         if (text.trim()) {
-            setTodos([...todos, { id: Date.now(), text }]);
+            setTodos([...todos, { id: Date.now(), check: false, text }]);
             setText('');
         }
     };
@@ -45,6 +46,12 @@ const HomeScreen = () => {
         }
     };
 
+    const changeSelect = (checked, id) => {
+        setTodos(todos.map(todo =>
+            todo.id === id ? { ...todo, check: checked } : todo
+        ));
+    }
+
     return (
         <View style={styles.container}>
             <TextInput
@@ -54,7 +61,7 @@ const HomeScreen = () => {
                 onChangeText={setText}
             />
             <Button style={styles.button} title="Добавить" onPress={addTodo} />
-            <TodoList todos={todos} onDelete={deleteTodo} onEdit={openEditDialog} />
+            <TodoList todos={todos} onDelete={deleteTodo} onEdit={openEditDialog} onCheck={changeSelect} />
 
 
             {/* Диалоговое окно для редактирования задачи */}
