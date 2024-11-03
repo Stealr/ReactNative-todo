@@ -1,12 +1,25 @@
 // TodoItem.js
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
+import BouncyCheckbox from "react-native-bouncy-checkbox";
+
 
 const TodoItem = ({ item, onDelete, onEdit }) => {
+    const [isSelected, setSelection] = useState(false);
+
     return (
         <View style={styles.todoItem}>
-            <Text style={styles.todoText}>{item.text}</Text>
+            <BouncyCheckbox
+                isChecked={isSelected}
+                onPress={(checked) => setSelection(checked)}
+                text={item.text}
+                textStyle={styles.todoText}
+                fillColor="#2196F3" // Цвет, когда чекбокс отмечен
+                unfillColor="#FFFFFF" // Цвет, когда чекбокс не отмечен
+                iconStyle={{ borderColor: '#6200EE' }}
+            />
+
             <Menu>
                 <MenuTrigger>
                     <Text style={styles.menuTrigger}>⋮</Text>
@@ -26,22 +39,29 @@ const TodoItem = ({ item, onDelete, onEdit }) => {
 
 const styles = StyleSheet.create({
     todoItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
         padding: 10,
         marginVertical: 5,
-        backgroundColor: '#f8f9fa',
+        backgroundColor: '#e8edf1',
         borderRadius: 5,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
+        paddingRight: 35,
     },
+
     todoText: {
-        fontSize: 16,
-        flex: 1,
+        fontSize: 17,
+        color: '#000',
+        width: '90%',
     },
+
     menuTrigger: {
         fontSize: 28,
-        paddingHorizontal: 10,
+        width: 30,
+        textAlign: 'center',
+        paddingBottom: 6,
     },
+
     menuOption: {
         padding: 10,
     },

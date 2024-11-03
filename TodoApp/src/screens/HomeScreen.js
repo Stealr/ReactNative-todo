@@ -9,9 +9,10 @@ const HomeScreen = () => {
     const [todos, setTodos] = useState([]);
 
     const [visible, setVisible] = useState(false);
-
     const [editText, setEditText] = useState('');
     const [editId, setEditId] = useState(null);
+
+
 
     const addTodo = () => {
         if (text.trim()) {
@@ -52,7 +53,7 @@ const HomeScreen = () => {
                 value={text}
                 onChangeText={setText}
             />
-            <Button title="Добавить" onPress={addTodo} />
+            <Button style={styles.button} title="Добавить" onPress={addTodo} />
             <TodoList todos={todos} onDelete={deleteTodo} onEdit={openEditDialog} />
 
 
