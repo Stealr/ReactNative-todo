@@ -15,8 +15,8 @@ const TodoItem = ({ item, onDelete, onEdit, onCheck }) => {
                 onPress={(checked) => onCheck(checked, item.id)}
                 text={item.text}
                 textStyle={styles.todoText}
-                fillColor="#2196F3" // Цвет, когда чекбокс отмечен
-                unfillColor="#FFFFFF" // Цвет, когда чекбокс не отмечен
+                fillColor="#2196F3"
+                unfillColor="#FFFFFF"
                 iconStyle={{ borderColor: '#6200EE' }}
             />
 

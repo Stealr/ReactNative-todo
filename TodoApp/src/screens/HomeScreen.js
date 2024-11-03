@@ -1,8 +1,9 @@
 // HomeScreen.js
-import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, AsyncStorage } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, TextInput, Button, StyleSheet } from 'react-native';
 import TodoList from '../components/TodoList';
 import Dialog from 'react-native-dialog';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const HomeScreen = () => {
@@ -13,12 +14,29 @@ const HomeScreen = () => {
     const [editText, setEditText] = useState('');
     const [editId, setEditId] = useState(null);
 
+    const storeData = async () => {
+        try {
+            const jsonValue = JSON.stringify(todos);
+            await AsyncStorage.setItem('tasks', jsonValue);
+        } catch (error) {
+            console.log("error saving ", error)
+        }
+    }
 
+    const retrieveData = async () => {
+        try {
+            const jsonValue = await AsyncStorage.getItem('tasks');
+            setTodos(jsonValue != null ? JSON.parse(jsonValue) : null);
+        } catch (error) {
+            console.log("error reading ", error)
+        }
+    };
 
     const addTodo = () => {
         if (text.trim()) {
             setTodos([...todos, { id: Date.now(), check: false, text }]);
             setText('');
+            
         }
     };
 
@@ -52,6 +70,14 @@ const HomeScreen = () => {
         ));
     }
 
+    useEffect(() => {
+        retrieveData();
+    }, []);
+
+    useEffect(() => {
+        storeData()
+    }, [todos]);
+
     return (
         <View style={styles.container}>
             <TextInput
@@ -63,8 +89,6 @@ const HomeScreen = () => {
             <Button style={styles.button} title="Добавить" onPress={addTodo} />
             <TodoList todos={todos} onDelete={deleteTodo} onEdit={openEditDialog} onCheck={changeSelect} />
 
-
-            {/* Диалоговое окно для редактирования задачи */}
             <Dialog.Container visible={visible}>
                 <Dialog.Title>Редактировать задачу</Dialog.Title>
                 <Dialog.Input
