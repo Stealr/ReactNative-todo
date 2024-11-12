@@ -26,7 +26,7 @@ const HomeScreen = () => {
     const retrieveData = async () => {
         try {
             const jsonValue = await AsyncStorage.getItem('tasks');
-            setTodos(jsonValue != null ? JSON.parse(jsonValue) : null);
+            setTodos(jsonValue != null ? JSON.parse(jsonValue) : []);
         } catch (error) {
             console.log("error reading ", error)
         }
@@ -71,12 +71,13 @@ const HomeScreen = () => {
     }
 
     useEffect(() => {
+        storeData()
+    }, [todos]);
+
+    useEffect(() => {
         retrieveData();
     }, []);
 
-    useEffect(() => {
-        storeData()
-    }, [todos]);
 
     return (
         <View style={styles.container}>
